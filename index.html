@@ -11,7 +11,7 @@
     <p>I am an aspiring Software Engineer learning to develop and code for companies
     </p>
     <hr/>
-    <h2>Education</h2> 
+    <h2>Education</h2>
         <ul>
             <li>Bachelor in Audio Production, Los Angeles Film School (2019-2023)</li>
         </ul>
@@ -52,5 +52,38 @@
         <li><a href="./public/hobbies.html">Hobbies</a></li>
     </ul>
     <footer>&copy; Ricardo Escalante. All rights reserved</footer>
+
+    <script>
+    (function () {
+        "use strict";
+
+        // Report broken internal links on page load
+        document.querySelectorAll("a[href]").forEach(function (link) {
+            var href = link.getAttribute("href");
+            if (!href || href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:")) {
+                return;
+            }
+            fetch(href, { method: "HEAD" }).then(function (response) {
+                if (!response.ok) {
+                    console.warn("Broken link detected: \"" + href + "\" returned status " + response.status);
+                    link.title = "This link may be broken (status " + response.status + ")";
+                    link.style.textDecoration = "line-through";
+                }
+            }).catch(function (error) {
+                console.warn("Could not verify link: \"" + href + "\" — " + error.message);
+            });
+        });
+
+        // Global error handler for uncaught JS errors
+        window.addEventListener("error", function (event) {
+            console.error("Unhandled error:", event.message, "at", event.filename + ":" + event.lineno + ":" + event.colno);
+        });
+
+        // Global handler for unhandled promise rejections
+        window.addEventListener("unhandledrejection", function (event) {
+            console.error("Unhandled promise rejection:", event.reason);
+        });
+    })();
+    </script>
 </body>
 </html>

@@ -3,19 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - Ricardo Escalante</title>
+    <title>Contact Me - Ricardo Escalante</title>
 </head>
 <body>
     <h1>Contact Me</h1>
-    <p>Tel: +13236678791</p>
-    <p>Email: ricardoescalante63@gmail.com</p>
+    <p>Tel: <a href="tel:+13236678791">+1 (323) 667-8791</a></p>
+    <p>Email: <a href="mailto:ricardoescalante63@gmail.com">ricardoescalante63@gmail.com</a></p>
     <p>Address:</p>
     <p>
-      2970 Partridge Ave<br />
-      Los Angeles<br />
-      USA<br />
+        2970 Partridge Ave<br />
+        Los Angeles<br />
+        USA<br />
     </p>
 
+    <hr />
+    <h2>Send a Message</h2>
+    <form id="contact-form" novalidate>
+        <div>
+            <label for="name">Name:</label><br />
+            <input type="text" id="name" name="name" required minlength="2" />
+            <span id="name-error" style="color: red; display: none;"></span>
+        </div>
+        <br />
+        <div>
+            <label for="email">Email:</label><br />
+            <input type="email" id="email" name="email" required />
+            <span id="email-error" style="color: red; display: none;"></span>
+        </div>
+        <br />
+        <div>
+            <label for="message">Message:</label><br />
+            <textarea id="message" name="message" rows="5" cols="40" required minlength="10"></textarea>
+            <span id="message-error" style="color: red; display: none;"></span>
+        </div>
+        <br />
+        <button type="submit">Send</button>
+        <p id="form-status" role="alert"></p>
+    </form>
+
     <p><a href="../index.html">Back to Resume</a></p>
+
+    <script>
+    (function () {
+        "use strict";
+
+        var form = document.getElementById("contact-form");
+        if (!form) {
+            console.error("Contact form element not found — cannot attach validation.");
+            return;
+        }
+
+        var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        function showError(fieldId, message) {
+            var errorSpan = document.getElementById(fieldId + "-error");
+            if (!errorSpan) {
+                console.error("Error element not found for field: " + fieldId);
+                return;
+            }
+            errorSpan.textContent = message;
+            errorSpan.style.display = "inline";
+        }
+
+        function clearError(fieldId) {
+            var errorSpan = document.getElementById(fieldId + "-error");
+            if (!errorSpan) {
+                return;
+            }
+            errorSpan.textContent = "";
+            errorSpan.style.display = "none";
+        }
+
+        function clearAllErrors() {
+            ["name", "email", "message"].forEach(function (fieldId) {
+                clearError(fieldId);
+            });
+        }
+
+        function validateField(fieldId, value) {
+            var field = document.getElementById(fieldId);
+            if (!field) {
+                console.error("Form field not found: " + fieldId);
+                return "Field not found.";
+            }
+
+            if (field.hasAttribute("required") && value.trim() === "") {
+                return "This field is required.";
+            }
+
+            var minLength = field.getAttribute("minlength");
+            if (minLength && value.trim().length < parseInt(minLength, 10)) {
+                return "Must be at least " + minLength + " characters.";
+            }
+
+            if (field.type === "email" && !EMAIL_PATTERN.test(value.trim())) {
+                return "Please enter a valid email address.";
+            }
+
+            return "";
+        }
+
+        // Live validation on blur
+        ["name", "email", "message"].forEach(function (fieldId) {
+            var field = document.getElementById(fieldId);
+            if (!field) {
+                console.warn("Could not attach blur listener — field not found: " + fieldId);
+                return;
+            }
+            field.addEventListener("blur", function () {
+                var errorMessage = validateField(fieldId, field.value);
+                if (errorMessage) {
+                    showError(fieldId, errorMessage);
+                } else {
+                    clearError(fieldId);
+                }
+            });
+        });
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+            clearAllErrors();
+
+            var statusEl = document.getElementById("form-status");
+            var isValid = true;
+
+            ["name", "email", "message"].forEach(function (fieldId) {
+                var field = document.getElementById(fieldId);
+                if (!field) {
+                    console.error("Form field missing during submission: " + fieldId);
+                    isValid = false;
+                    return;
+                }
+                var errorMessage = validateField(fieldId, field.value);
+                if (errorMessage) {
+                    showError(fieldId, errorMessage);
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                if (statusEl) {
+                    statusEl.textContent = "Please fix the errors above.";
+                    statusEl.style.color = "red";
+                }
+                return;
+            }
+
+            if (statusEl) {
+                statusEl.textContent = "Thank you for your message! (Note: no backend is configured yet.)";
+                statusEl.style.color = "green";
+            }
+            form.reset();
+        });
+
+        // Global error handlers
+        window.addEventListener("error", function (event) {
+            console.error("Unhandled error:", event.message, "at", event.filename + ":" + event.lineno + ":" + event.colno);
+        });
+
+        window.addEventListener("unhandledrejection", function (event) {
+            console.error("Unhandled promise rejection:", event.reason);
+        });
+    })();
+    </script>
 </body>
 </html>
