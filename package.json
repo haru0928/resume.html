@@ -1,0 +1,13 @@
+{
+  "name": "resume.html",
+  "version": "1.0.0",
+  "description": "Ricardo Escalante's resume website",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
+  }
+}
