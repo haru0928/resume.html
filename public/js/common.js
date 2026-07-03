@@ -1,92 +1,131 @@
 /* ==========================================================================
-   Shared Utilities - Resume Site
-   Renders navigation and footer on every page to avoid duplication.
+   Shared Utilities — Portfolio Site
+   Theme toggle, mobile menu, reveal animations, contour canvas.
    ========================================================================== */
 
-/**
- * Navigation links shared across all pages.
- * Each entry has a label, href (relative to repo root), and an id used
- * to mark the active page.
- */
-const NAV_LINKS = [
-    { label: "Home", href: "/index.html", id: "home" },
-    { label: "About", href: "/public/about.html", id: "about" },
-    { label: "Hobbies", href: "/public/hobbies.html", id: "hobbies" },
-    { label: "Contact", href: "/public/contact.html", id: "contact" },
-];
+(function(){
+  'use strict';
 
-/**
- * Determines the base path prefix so links work whether opened from
- * the repo root or from the /public/ subdirectory.
- */
-function getBasePath() {
-    const path = window.location.pathname;
-    if (path.includes("/public/")) {
-        return "..";
-    }
-    return ".";
-}
+  /* ---- Theme ---- */
+  const root = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
 
-/**
- * Detects which page is currently active based on the URL.
- */
-function getActivePageId() {
-    const path = window.location.pathname;
-    if (path.endsWith("about.html")) return "about";
-    if (path.endsWith("hobbies.html")) return "hobbies";
-    if (path.endsWith("contact.html")) return "contact";
-    return "home";
-}
+  function applyTheme(theme){
+    root.setAttribute('data-theme', theme);
+    if(themeToggle) themeToggle.textContent = theme === 'dark' ? 'LIGHT' : 'DARK';
+  }
 
-/**
- * Renders the site-wide navigation bar.
- * Inserts it as the first child of <body>.
- */
-function renderNavigation() {
-    const basePath = getBasePath();
-    const activeId = getActivePageId();
+  const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+  let currentTheme = systemPrefersLight ? 'light' : 'dark';
+  applyTheme(currentTheme);
 
-    const nav = document.createElement("nav");
-    nav.className = "site-nav";
-    nav.setAttribute("aria-label", "Main navigation");
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e){
+    currentTheme = e.matches ? 'light' : 'dark';
+    applyTheme(currentTheme);
+  });
 
-    const ul = document.createElement("ul");
-
-    NAV_LINKS.forEach(function (link) {
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.textContent = link.label;
-        a.href = basePath + link.href.replace(/^\./, "");
-        if (link.id === activeId) {
-            a.className = "active";
-            a.setAttribute("aria-current", "page");
-        }
-        li.appendChild(a);
-        ul.appendChild(li);
+  if(themeToggle){
+    themeToggle.addEventListener('click', function(){
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(currentTheme);
     });
+  }
 
-    nav.appendChild(ul);
-    document.body.insertBefore(nav, document.body.firstChild);
-}
+  /* ---- Mobile Menu ---- */
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const scrim = document.getElementById('scrim');
 
-/**
- * Renders the site-wide footer.
- * Appends it as the last child of <body>.
- */
-function renderFooter() {
-    const footer = document.createElement("footer");
-    footer.className = "site-footer";
-    footer.textContent = "\u00A9 Ricardo Escalante. All rights reserved.";
-    document.body.appendChild(footer);
-}
+  function closeMenu(){
+    if(mobileMenu) mobileMenu.classList.remove('open');
+    if(scrim) scrim.classList.remove('open');
+  }
+  if(menuToggle){
+    menuToggle.addEventListener('click', function(){
+      mobileMenu.classList.add('open');
+      scrim.classList.add('open');
+    });
+  }
+  if(scrim) scrim.addEventListener('click', closeMenu);
+  if(mobileMenu){
+    mobileMenu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
+  }
 
-/**
- * Initializes shared components.
- * Call this at the end of every page or via DOMContentLoaded.
- */
-function initCommon() {
-    renderNavigation();
-    renderFooter();
-}
+  /* ---- Reveal on Scroll ---- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if(revealEls.length){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function(el){ io.observe(el); });
+  }
 
-document.addEventListener("DOMContentLoaded", initCommon);
+  /* ---- Contour Canvas (hero background) ---- */
+  var canvas = document.getElementById('contour');
+  if(canvas){
+    var ctx = canvas.getContext('2d');
+    var w, h, t = 0;
+
+    function resize(){
+      w = canvas.width = canvas.offsetWidth * devicePixelRatio;
+      h = canvas.height = canvas.offsetHeight * devicePixelRatio;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function noise(x, y, seed){
+      return Math.sin(x * 0.006 + seed) * 0.5 + Math.sin(y * 0.01 + seed * 1.3) * 0.3 + Math.sin((x + y) * 0.004 + seed * 0.7) * 0.4;
+    }
+
+    function contourColors(){
+      var theme = root.getAttribute('data-theme');
+      if(theme === 'light'){
+        return ['rgba(139,67,26,0.30)', 'rgba(62,74,50,0.28)', 'rgba(33,30,23,0.14)'];
+      }
+      return ['rgba(177,95,39,0.30)', 'rgba(92,112,72,0.28)', 'rgba(233,226,210,0.14)'];
+    }
+
+    function drawContours(){
+      ctx.clearRect(0, 0, w, h);
+      var lines = 14;
+      var colors = contourColors();
+      for(var i = 0; i < lines; i++){
+        var baseY = (h / lines) * i;
+        ctx.beginPath();
+        ctx.strokeStyle = colors[i % 3];
+        ctx.lineWidth = 1;
+        for(var x = 0; x <= w; x += 12){
+          var y = baseY + noise(x, baseY, i * 10 + t) * 46;
+          if(x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+      }
+      t += 0.004;
+      requestAnimationFrame(drawContours);
+    }
+
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!prefersReduced){
+      requestAnimationFrame(drawContours);
+    } else {
+      var colors = contourColors();
+      var lines = 14;
+      for(var i=0;i<lines;i++){
+        var baseY = (h/lines)*i;
+        ctx.beginPath();
+        ctx.strokeStyle = colors[i % 3];
+        for(var x=0;x<=w;x+=12){
+          var y = baseY + noise(x, baseY, i*10) * 46;
+          if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+        }
+        ctx.stroke();
+      }
+    }
+  }
+
+})();

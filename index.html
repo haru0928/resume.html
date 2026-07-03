@@ -1,68 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Resume</title>
-    <link rel="stylesheet" href="./public/css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sweta Irom — 3D Visualization & Drafting, Imphal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./public/css/styles.css">
 </head>
 <body>
-    <h1>Ricardo Escalante</h1>
 
-    <h2>Summary</h2>
-    <p>I am an aspiring Software Engineer learning to develop and code for companies.</p>
+<div class="menu-scrim" id="scrim"></div>
 
-    <hr class="section-divider"/>
+<header class="nav">
+  <div class="nav-mark">S. IROM</div>
+  <nav class="nav-links">
+    <a href="./index.html" class="active">Home</a>
+    <a href="./works.html">Works</a>
+    <a href="./about.html">About</a>
+  </nav>
+  <div class="nav-controls">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">LIGHT</button>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu">MENU</button>
+  </div>
+</header>
 
-    <h2>Education</h2>
-    <ul>
-        <li>Bachelor in Audio Production, Los Angeles Film School (2019-2023)</li>
-    </ul>
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="./index.html" class="active">Home</a>
+  <a href="./works.html">Works</a>
+  <a href="./about.html">About</a>
+</nav>
 
-    <hr class="section-divider"/>
+<!-- Hero -->
+<section class="hero">
+  <canvas id="contour"></canvas>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="wrap hero-content">
+    <div class="eyebrow">Imphal Valley · Manipur, India</div>
+    <h1 class="name">Sweta<br><em>Irom</em></h1>
+    <p class="hero-sub">Architecture graduate turning design intent into construction-ready drawings and photoreal renders — precision drafting and immersive 3D visualization from the heart of Manipur.</p>
+    <div class="cta-group">
+      <a href="./works.html" class="cta-btn primary">View Works</a>
+      <a href="./about.html" class="cta-btn">About Me</a>
+    </div>
+  </div>
+</section>
 
-    <h2>Work Experience</h2>
-    <ul>
-        <li>
-            <h3>Shift Leader - Panda Express</h3>
-            <p>November 2018-Current</p>
-            <ul>
-                <li>Performed Opening and closing duties of store</li>
-                <li>Handled customer needs and requests</li>
-                <li>Responsible for store management and operations</li>
-            </ul>
-        </li>
-        <li>
-            <h3>Audio Engineer</h3>
-            <p>August 2020-Current</p>
-            <ul>
-                <li>Setup and break down of Audio equipment</li>
-                <li>Live stream audio via Dante setup and OBS</li>
-                <li>Coordinate with Ministers for Worship Services</li>
-            </ul>
-        </li>
-    </ul>
+<!-- Services -->
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-label">What I Do</div>
+        <h2 class="section-title">Design made legible — to builders and clients alike</h2>
+      </div>
+    </div>
 
-    <hr class="section-divider"/>
+    <div class="services-strip reveal">
+      <div class="service-cell">
+        <h3>2D Drafting</h3>
+        <p>Dimensioned plans, sections, and elevations coordinated for construction — ready for contractors, not just presentations.</p>
+      </div>
+      <div class="service-cell">
+        <h3>3D Visualization</h3>
+        <p>Photoreal renders and walkthroughs that let clients experience spaces before a single brick is laid.</p>
+      </div>
+      <div class="service-cell">
+        <h3>Clean Handoff</h3>
+        <p>Organized, layered files built for the next architect or engineer — structured so anyone can pick up where I left off.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <h2>Skills</h2>
-    <ul>
-        <li>Customer Service</li>
-        <li>Microsoft Office</li>
-        <li>Detail Oriented</li>
-    </ul>
+<!-- Featured Works Preview -->
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-label">Selected Work</div>
+        <h2 class="section-title">Fieldwork, conventions and recognition</h2>
+      </div>
+      <div class="section-note"><a href="./works.html" style="color:var(--rust); border-bottom:1px solid var(--rust);">View all works &rarr;</a></div>
+    </div>
 
-    <noscript>
-        <nav class="site-nav" aria-label="Main navigation">
-            <ul>
-                <li><a href="./index.html" class="active" aria-current="page">Home</a></li>
-                <li><a href="./public/about.html">About</a></li>
-                <li><a href="./public/hobbies.html">Hobbies</a></li>
-                <li><a href="./public/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-        <footer class="site-footer">&copy; Ricardo Escalante. All rights reserved.</footer>
-    </noscript>
-    <script src="./public/js/common.js"></script>
+    <div class="featured-grid reveal">
+      <div class="featured-card">
+        <div class="work-texture tex-bamboo"></div>
+        <div class="featured-label">DOCUMENTATION · 2017</div>
+        <div class="featured-title">Poa Mecca</div>
+        <div class="featured-loc">Hajo, Assam</div>
+      </div>
+      <div class="featured-card">
+        <div class="work-texture tex-stone"></div>
+        <div class="featured-label">DOCUMENTATION · 2018</div>
+        <div class="featured-title">Mishing & Panbari Village</div>
+        <div class="featured-loc">Kaziranga, Assam</div>
+      </div>
+      <div class="featured-card">
+        <div class="work-texture tex-thatch"></div>
+        <div class="featured-label">COMPETITION · 2018–2019</div>
+        <div class="featured-title">ANDC</div>
+        <div class="featured-loc">Shortlisted, two consecutive years</div>
+      </div>
+      <div class="featured-card">
+        <div class="work-texture tex-lat"></div>
+        <div class="featured-label">EXPOSURE PROGRAMME · 2018</div>
+        <div class="featured-title">Laurie Baker's Approach</div>
+        <div class="featured-loc">LBC</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quote -->
+<div class="quote-banner">
+  <blockquote class="reveal">"A good drawing removes doubt. A good render removes it earlier."</blockquote>
+  <cite class="reveal">— Sweta Irom</cite>
+</div>
+
+<!-- Footer -->
+<footer class="contact">
+  <div class="wrap contact-inner">
+    <div class="section-label reveal">Get in touch</div>
+    <h2 class="reveal"><a href="mailto:chanusweta57@gmail.com">chanusweta57@gmail.com</a></h2>
+
+    <div class="contact-bottom">
+      <span>Based in Imphal, Manipur — India</span>
+      <span><a href="https://www.facebook.com/sweta.chanu" target="_blank" rel="noopener">Facebook</a> &nbsp;·&nbsp; <a href="https://www.instagram.com/___swe_t___" target="_blank" rel="noopener">Instagram</a></span>
+      <span>&copy; 2026 Sweta Irom</span>
+    </div>
+  </div>
+</footer>
+
+<script src="./public/js/common.js"></script>
 </body>
 </html>
