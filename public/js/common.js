@@ -15,19 +15,25 @@
     if(themeToggle) themeToggle.textContent = theme === 'dark' ? 'LIGHT' : 'DARK';
   }
 
+  var saved = null;
+  try { saved = localStorage.getItem('theme'); } catch(e){}
+  var userOverride = !!saved;
   const systemPrefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-  let currentTheme = systemPrefersLight ? 'light' : 'dark';
+  let currentTheme = saved || (systemPrefersLight ? 'light' : 'dark');
   applyTheme(currentTheme);
 
   window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(e){
+    if(userOverride) return;
     currentTheme = e.matches ? 'light' : 'dark';
     applyTheme(currentTheme);
   });
 
   if(themeToggle){
     themeToggle.addEventListener('click', function(){
+      userOverride = true;
       currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
       applyTheme(currentTheme);
+      try { localStorage.setItem('theme', currentTheme); } catch(e){}
     });
   }
 

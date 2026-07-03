@@ -7,6 +7,17 @@
   --serif:'Fraunces', serif;
   --sans:'Work Sans', sans-serif;
   --mono:'Space Mono', monospace;
+  --ink:#17150F;
+  --stone:#E9E2D2;
+  --stoneware:#3A3833;
+  --rust:#B15F27;
+  --moss:#5C7048;
+  --gold:#C9A227;
+  --line: rgba(233,226,210,0.14);
+  --panel: rgba(255,255,255,0.02);
+  --contour-a: rgba(177,95,39,0.30);
+  --contour-b: rgba(92,112,72,0.28);
+  --contour-c: rgba(233,226,210,0.14);
 }
 
 html[data-theme="dark"]{
